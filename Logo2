@@ -1,0 +1,88 @@
+# Logo_Graphics_C-
+using Graphics in C++ to create KBC logo.
+#include <graphics.h>
+#include <conio.h>
+#include <math.h>
+#include<iostream.h>
+#include<string.h>
+#include <dos.h>
+
+
+
+
+void drawKBCLogo() {
+    int gd = DETECT, gm;
+    initgraph(&gd, &gm, "C:\\Turboc3\\BGI");
+
+    // Set color and draw the outer circle
+    setcolor(YELLOW);
+    circle(200, 200, 100);
+
+    // Draw inner circle and fill with blue color
+    setcolor(BLUE);
+    circle(200, 200, 80);
+    setfillstyle(SOLID_FILL, BLUE);
+    floodfill(200, 200, BLUE);
+
+    // Draw KBC text
+    setcolor(WHITE);
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+    outtextxy(170, 190, "KBC");
+
+    // Draw small circles around the logo
+    for (int i = 0; i < 360; i += 60) {
+        int x = 200 + 90 * cos(i * M_PI / 180);
+        int y = 200 + 90 * sin(i * M_PI / 180);
+        setcolor(RED);
+        circle(x, y, 10);
+    }
+
+    // Draw "Kaun Banega Crorepati" around the outer circle and make it revolve
+    settextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
+    char text[] = "Kaun Banega Crorepati";
+    int len = strlen(text);
+
+    for (int j = 0; j < 360; j += 5) {
+        cleardevice();
+        
+        // Redraw circles
+        setcolor(YELLOW);
+        circle(200, 200, 100);
+        setcolor(BLUE);
+        circle(200, 200, 80);
+        setfillstyle(SOLID_FILL, BLUE);
+        floodfill(200, 200, BLUE);
+        setcolor(WHITE);
+        settextstyle(DEFAULT_FONT, HORIZ_DIR, 2);
+        outtextxy(170, 190, "KBC");
+
+        // Redraw small circles around the logo
+        for (int i = 0; i < 360; i += 60) {
+            int x = 200 + 90 * cos(i * M_PI / 180);
+            int y = 200 + 90 * sin(i * M_PI / 180);
+            setcolor(RED);
+            circle(x, y, 10);
+        }
+
+        // Draw revolving text
+        for (int k = 0; k < len; k++) {
+            int angle = (360 * k / len + j) % 360;
+            int x = 200 + 110 * cos(angle * M_PI / 180);
+            int y = 200 + 110 * sin(angle * M_PI / 180);
+            char ch[2] = {text[k], '\0'}; // Convert char to string
+            settextstyle(DEFAULT_FONT, HORIZ_DIR, 1);
+            outtextxy(x, y, ch);
+        }
+
+        delay(100); // Adjust delay for speed of rotation
+    }
+
+    getch();
+    closegraph();
+}
+
+int main() {
+    drawKBCLogo();
+    return 0;
+}
+
